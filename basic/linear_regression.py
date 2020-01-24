@@ -18,6 +18,8 @@ loss function使用 square loss(平方损失)，即训练数据集中所有样�
 
 """
 
+
+# 数据生成part
 num_input = 2
 num_examples = 1000
 true_w = [2, -3.4]
