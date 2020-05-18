@@ -14,6 +14,8 @@ def tensor_op():
     out = z.mean()
     print(z, out)
 
+# tensor_op()
+
 def inplace_req_grad():
     """
     用inplace的方式来改变requires_grad
@@ -21,11 +23,13 @@ def inplace_req_grad():
     a = torch.randn(2, 2)  # 默认requires_grad = false
     a = ((a * 3) / (a - 1))
     print(a.requires_grad)  # false
-    a.requires_grad_(True)
+
+    a.requires_grad_(True)  # record in-place
     print(a.requires_grad)  # true
     b = (a * a).sum()
     print(b.grad_fn)
 
+# inplace_req_grad()
 
 def grad_accumulation():
     """
@@ -33,29 +37,33 @@ def grad_accumulation():
     """
     x = torch.ones(2, 2, requires_grad=True)
     print(x)
-    print(x.grad_fn)
+    print("x.grad_fn = ", x.grad_fn)
 
     y = x + 2
     print(y)
-    print(y.grad_fn)
+    print("y.grad_fn = ", y.grad_fn)
 
     z = y * y * 3
     out = z.mean()
-    print(z, out)
+    print("z = ", z)
+    print("out = ", out)
 
     out.backward()
-    print(x.grad)
+    print("1. out backward = ", x.grad)
 
     # 再来反向传播一次，注意grad是累加的
     out2 = x.sum()
     out2.backward()
-    print(x.grad)
+    print("1. out backward = ", x.grad)
 
+
+    # 对x.grad清零再反向传播
     out3 = x.sum()
     x.grad.data.zero_()
     out3.backward()  
-    print(x.grad)
+    print("1. out backward = ", x.grad)
 
+# grad_accumulation()
 
 def interrupt_grad():
     x = torch.tensor(1.0, requires_grad=True)
@@ -76,7 +84,8 @@ def interrupt_grad():
 
 def change_num():
     """
-    如果我们想要修改tensor的数值，但是又不希望被autograd记录（即不会影响反向传播），那么我么可以对tensor.data进行操作。
+    如果我们想要修改tensor的数值，但是又不希望被autograd记录（即不会影响反向传播）
+    那么我么可以对tensor.data进行操作。
     """
     x = torch.ones(1,requires_grad=True)
 
@@ -90,4 +99,4 @@ def change_num():
     print(x) # 更改data的值也会影响tensor的值
     print(x.grad)
 
-change_num()
+# change_num()

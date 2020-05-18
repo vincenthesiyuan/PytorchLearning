@@ -12,6 +12,7 @@ import torch
 import numpy as np
 import sys
 sys.path.append(".") 
+
 import d2lzh_pytorch as d2l
 
 n_train, n_test, true_w, true_b = 100, 100, [1.2, -3.4, 5.6], 5

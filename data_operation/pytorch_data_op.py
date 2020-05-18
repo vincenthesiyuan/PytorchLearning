@@ -11,30 +11,27 @@ def tensor_op():
     y = torch.rand(5, 3)
     print(x + y)
 
-    print(torch.add(x, y))
+    # print(torch.add(x, y))
 
-    result = torch.empty(5, 3)
-    torch.add(x, y, out = result)
-    print("result:", result)  # 指定输出
+    # result = torch.empty(5, 3)
+    # torch.add(x, y, out = result)
+    # print("result:", result)  # 指定输出
 
-    y.add_(x)  # inplace   
-    print("inplace y:", y)
+    # y.add_(x)  # inplace   
+    # print("inplace y:", y)
 
-    # 索引 索引出来的结果与原数据共享内存
-    y = x[0, :]
-    y += 1  # 原tensor x也被修改
-    print(y)
-    print(x[0, :])  
+    # # 索引 索引出来的结果与原数据共享内存
+    # y = x[0, :]
+    # y += 1  # 原tensor x也被修改
+    # print(y)
+    # print(x[0, :])  
 
-    # 用view()来改变tensor的形状
+    # # 用view()来改变tensor的形状
     y = x.view(15)
-    z = x.view(-1, 5)
+    z = x.view(-1, 5)   # 会自动推理-1的shape
     print(x.size(), y.size(), z.size())
 
-
-
-
-tensor_op()
+# tensor_op()
 
 def boardcasting_pra():
     """
@@ -48,6 +45,8 @@ def boardcasting_pra():
 
     print(x + y)
 
+# boardcasting_pra()
+
 def chapter2_2_4():
     """
     2.2.4 运算的内存开销
@@ -56,11 +55,10 @@ def chapter2_2_4():
     y = torch.tensor([3, 4])
     id_before = id(y)
 
-    # y = y + x  # 会新开内存
-    # print(id(y) == id_before)
+    y = y + x  # 会新开内存
+    # torch.add(x, y, out = y)
+    # y += x  
 
-    #torch.add(x, y, out = y)
-    y += x  #True
     print(id(y) == id_before)
 
 # chapter2_2_4()
